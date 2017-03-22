@@ -13,8 +13,8 @@ hrefHandler((click) => {
 state.path = '/'
 
 var asteroids = ''
-var asteroidCount = ''
-var hazardous = ''
+var asteroidCount = 0
+var hazardous = 0
 var isAre = ''
 var roids = ''
 var hazIsAre = ''
@@ -34,12 +34,12 @@ if(mm<10){
 var today = yyyy+'-'+mm+'-'+dd;
 
 request
-  .get('https://api.nasa.gov/neo/rest/v1/feed?start_date='+today+'&end_date='+today+'& [insert NASA api key]')
+  .get('https://api.nasa.gov/neo/rest/v1/feed?start_date='+today+'&end_date='+today+'&api_key=[insert api key]')
   .end(function(err, res){
     if (err) {
       throw err
-    } else{
-        asteroids = res.body.near_earth_objects['2017-03-22']
+    } else {
+        asteroids = res.body.near_earth_objects[today]
         asteroidCount = res.body.element_count
         getAsteroids(asteroids)
         if (asteroidCount == 1) {
