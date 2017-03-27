@@ -28,7 +28,7 @@ if(mm<10){
 var today = yyyy+'-'+mm+'-'+dd;
 
 request
-  .get('https://api.nasa.gov/neo/rest/v1/feed?start_date='+today+'&end_date='+today+'&api_key=[inset api key])
+  .get('https://api.nasa.gov/neo/rest/v1/feed?start_date='+today+'&end_date='+today+'&api_key=xxx')
   .end(function(err, res){
     if (err) {
       throw err
