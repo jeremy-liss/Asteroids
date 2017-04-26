@@ -1,8 +1,8 @@
 {
-  "name": "boilerplate-react-webpack",
+  "name": "asteroids",
   "version": "0.1.1",
-  "description": "A webpack React starter",
-  "repository": "https://github.com/dev-academy-challenges/boilerplate-react-webpack.git",
+  "description": "chack if any potentially hazardous asteroids are approaching earth",
+  "repository": "https://github.com/jeremy-liss/Asteroids",
   "main": "server/index.js",
   "scripts": {
     "build": "webpack --watch",

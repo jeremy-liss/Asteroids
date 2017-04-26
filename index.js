@@ -4,7 +4,7 @@ var ReactDOM = require('react-dom')
 
 var state = require('./state')
 
-state.path = '/'
+var key = config.KEY
 
 var asteroids = ''
 var asteroidCount = 0
@@ -28,7 +28,7 @@ if(mm<10){
 var today = yyyy+'-'+mm+'-'+dd;
 
 request
-  .get('https://api.nasa.gov/neo/rest/v1/feed?start_date='+today+'&end_date='+today+'&api_key=xxx')
+  .get('https://api.nasa.gov/neo/rest/v1/feed?start_date='+today+'&end_date='+today+'&api_key='+key)
   .end(function(err, res){
     if (err) {
       throw err
