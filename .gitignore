@@ -4,3 +4,4 @@ npm-debug.log
 bundle.*
 leaflet
 config.js
+.env
