@@ -3,9 +3,9 @@ var React = require('react')
 var ReactDOM = require('react-dom')
 
 var state = require('./state')
+var date = require('../lib/getToday')
 
-var key = config.KEY
-
+var today = date()
 var asteroids = ''
 var asteroidCount = 0
 var hazardous = 0
@@ -13,22 +13,8 @@ var isAre = ''
 var roids = ''
 var hazIsAre = ''
 
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1;
-
-var yyyy = today.getFullYear();
-if(dd<10){
-    dd='0'+dd;
-}
-if(mm<10){
-    mm='0'+mm;
-}
-
-var today = yyyy+'-'+mm+'-'+dd;
-
 request
-  .get('https://api.nasa.gov/neo/rest/v1/feed?start_date='+today+'&end_date='+today+'&api_key='+key)
+  .get('/api')
   .end(function(err, res){
     if (err) {
       throw err
