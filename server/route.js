@@ -5,10 +5,11 @@ var env = [process.env.NODE_ENV || 'development']
 var request = require ('superagent')
 require('dotenv').config()
 
-var date = require('../lib/getToday')
+var date = require('../lib/getDate')
 
-var today = date()
-var URL = 'https://api.nasa.gov/neo/rest/v1/feed?start_date='+today+'&end_date='+today+'&api_key='+process.env.KEY
+var yesterday = date.getYesterday()
+var tomorrow = date.getTomorrow()
+var URL = 'https://api.nasa.gov/neo/rest/v1/feed?start_date='+yesterday+'&end_date='+tomorrow+'&api_key='+process.env.KEY
 
 request
   .get(URL)

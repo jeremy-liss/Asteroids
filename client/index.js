@@ -3,9 +3,9 @@ var React = require('react')
 var ReactDOM = require('react-dom')
 
 var state = require('./state')
-var date = require('../lib/getToday')
+var date = require('../lib/getDate')
 
-var today = date()
+var today = date.getToday()
 var asteroids = ''
 var asteroidCount = 0
 var hazardous = 0
@@ -20,7 +20,6 @@ request
       throw err
     } else {
         asteroids = res.body.near_earth_objects[today]
-        asteroidCount = res.body.element_count
         getAsteroids(asteroids)
         if (asteroidCount == 1) {
           roids = 'asteroid'
@@ -35,6 +34,7 @@ request
 
 function getAsteroids(asteroids) {
   asteroids.map(function(asteroid) {
+    asteroidCount +=1
     if (asteroid.is_potentially_hazardous_asteroid){
       hazardous += 1
     }
