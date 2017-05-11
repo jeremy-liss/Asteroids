@@ -53,7 +53,7 @@
 	var state = __webpack_require__(183);
 	var date = __webpack_require__(184);
 	
-	var today = date();
+	var today = date(0);
 	var asteroids = '';
 	var asteroidCount = 0;
 	var hazardous = 0;
@@ -66,7 +66,6 @@
 	    throw err;
 	  } else {
 	    asteroids = res.body.near_earth_objects[today];
-	    asteroidCount = res.body.element_count;
 	    getAsteroids(asteroids);
 	    if (asteroidCount == 1) {
 	      roids = 'asteroid';
@@ -81,6 +80,7 @@
 	
 	function getAsteroids(asteroids) {
 	  asteroids.map(function (asteroid) {
+	    asteroidCount += 1;
 	    if (asteroid.is_potentially_hazardous_asteroid) {
 	      hazardous += 1;
 	    }
@@ -23196,9 +23196,9 @@
 
 	'use strict';
 	
-	module.exports = function () {
-	
+	module.exports = function getDate(num) {
 	  var today = new Date();
+	  today.setDate(today.getDate() + num);
 	  var dd = today.getDate();
 	  var mm = today.getMonth() + 1;
 	
@@ -23210,9 +23210,8 @@
 	    mm = '0' + mm;
 	  }
 	
-	  var today = yyyy + '-' + mm + '-' + dd;
-	
-	  return today;
+	  var tomorrow = yyyy + '-' + mm + '-' + dd;
+	  return tomorrow;
 	};
 
 /***/ }
