@@ -7,8 +7,8 @@ require('dotenv').config()
 
 var date = require('../lib/getDate')
 
-var yesterday = date.getYesterday()
-var tomorrow = date.getTomorrow()
+var yesterday = date(-2)
+var tomorrow = date(1)
 var URL = 'https://api.nasa.gov/neo/rest/v1/feed?start_date='+yesterday+'&end_date='+tomorrow+'&api_key='+process.env.KEY
 
 request

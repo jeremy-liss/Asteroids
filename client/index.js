@@ -5,7 +5,7 @@ var ReactDOM = require('react-dom')
 var state = require('./state')
 var date = require('../lib/getDate')
 
-var today = date.getToday()
+var today = date(0)
 var asteroids = ''
 var asteroidCount = 0
 var hazardous = 0
