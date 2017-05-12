@@ -44,7 +44,6 @@ function getAsteroids(asteroids) {
   } else {
     hazIsAre = 'are'
   }
-  render()
 }
 
 function AsteroidInfo () {
