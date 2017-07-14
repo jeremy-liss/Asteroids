@@ -52,105 +52,30 @@
 	
 	var state = __webpack_require__(183);
 	var date = __webpack_require__(184);
+	var getAsteroids = __webpack_require__(185);
+	var App = __webpack_require__(186);
 	
 	var today = date(0);
-	var asteroids = '';
-	var asteroidCount = 0;
-	var hazardous = 0;
-	var isAre = '';
-	var roids = '';
-	var hazIsAre = '';
 	
 	request.get('/api').end(function (err, res) {
 	  if (err) {
 	    throw err;
 	  } else {
-	    asteroids = res.body.near_earth_objects[today];
-	    getAsteroids(asteroids);
-	    if (asteroidCount == 1) {
-	      roids = 'asteroid';
-	      isAre = 'is';
-	    } else {
-	      roids = 'asteroids';
-	      isAre = 'are';
-	    }
+	    state.asteroids = res.body.near_earth_objects[today];
+	    getAsteroids(state.asteroids);
 	    render();
 	  }
 	});
-	
-	function getAsteroids(asteroids) {
-	  asteroids.map(function (asteroid) {
-	    asteroidCount += 1;
-	    if (asteroid.is_potentially_hazardous_asteroid) {
-	      hazardous += 1;
-	    }
-	  });
-	  if (hazardous == 1) {
-	    hazIsAre = 'is';
-	  } else {
-	    hazIsAre = 'are';
-	  }
-	  render();
-	}
-	
-	function AsteroidInfo() {
-	  return React.createElement(
-	    'div',
-	    null,
-	    hazardous > 0 ? React.createElement(
-	      'h1',
-	      null,
-	      'Yes, ',
-	      hazardous,
-	      '!'
-	    ) : React.createElement(
-	      'h1',
-	      null,
-	      'No, not today!'
-	    ),
-	    React.createElement(
-	      'p',
-	      null,
-	      'According to NASA ',
-	      asteroidCount,
-	      ' ',
-	      roids,
-	      ' ',
-	      isAre,
-	      ' approaching Earth today, ',
-	      hazardous,
-	      ' of which ',
-	      hazIsAre,
-	      ' potentially hazardous'
-	    )
-	  );
-	}
 	
 	function showInfo() {
 	  state.display = !state.display;
 	  render();
 	}
 	
-	function App() {
-	  return React.createElement(
-	    'div',
-	    { id: 'App' },
-	    React.createElement(
-	      'h1',
-	      null,
-	      React.createElement(
-	        'a',
-	        { href: '#', onClick: showInfo },
-	        'Are There any Potentially Hazardous Asteroids Approaching Earth Today?'
-	      )
-	    ),
-	    state.display && React.createElement(AsteroidInfo, null),
-	    React.createElement('img', { src: 'http://space-facts.com/wp-content/uploads/asteroids.png' })
-	  );
-	}
+	state.showInfo = showInfo;
 	
 	function render() {
-	  ReactDOM.render(App(), document.getElementById('app'));
+	  ReactDOM.render(App(state), document.getElementById('app'));
 	}
 
 /***/ },
@@ -23184,10 +23109,16 @@
 /* 183 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	module.exports = {
-	  display: false
+	  display: false,
+	  asteroids: '',
+	  asteroidCount: 0,
+	  hazardous: 0,
+	  isAre: '',
+	  roids: '',
+	  hazIsAre: ''
 	};
 
 /***/ },
@@ -23197,12 +23128,12 @@
 	'use strict';
 	
 	module.exports = function getDate(num) {
-	  var today = new Date();
-	  today.setDate(today.getDate() + num);
-	  var dd = today.getDate();
-	  var mm = today.getMonth() + 1;
+	  var date = new Date();
+	  date.setDate(date.getDate() + num);
+	  var dd = date.getDate();
+	  var mm = date.getMonth() + 1;
 	
-	  var yyyy = today.getFullYear();
+	  var yyyy = date.getFullYear();
 	  if (dd < 10) {
 	    dd = '0' + dd;
 	  }
@@ -23210,8 +23141,97 @@
 	    mm = '0' + mm;
 	  }
 	
-	  var tomorrow = yyyy + '-' + mm + '-' + dd;
-	  return tomorrow;
+	  var date = yyyy + '-' + mm + '-' + dd;
+	  return date;
+	};
+
+/***/ },
+/* 185 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var state = __webpack_require__(183);
+	
+	module.exports = function (asteroids) {
+	  asteroids.map(function (asteroid) {
+	    state.asteroidCount += 1;
+	    if (asteroid.is_potentially_hazardous_asteroid) {
+	      state.hazardous += 1;
+	    }
+	  });
+	  if (state.hazardous == 1) {
+	    state.hazIsAre = 'is';
+	  } else {
+	    state.hazIsAre = 'are';
+	  }
+	  if (state.asteroidCount == 1) {
+	    state.roids = 'asteroid';
+	    state.isAre = 'is';
+	  } else {
+	    state.roids = 'asteroids';
+	    state.isAre = 'are';
+	  }
+	};
+
+/***/ },
+/* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(6);
+	
+	module.exports = function (props) {
+	
+	  return React.createElement(
+	    'div',
+	    { id: 'App' },
+	    React.createElement(
+	      'h1',
+	      null,
+	      React.createElement(
+	        'a',
+	        { href: '#', onClick: props.showInfo },
+	        'Are There any Potentially Hazardous Asteroids Approaching Earth Today?'
+	      )
+	    ),
+	    props.display && React.createElement(AsteroidInfo, null),
+	    React.createElement('img', { src: 'http://space-facts.com/wp-content/uploads/asteroids.png' })
+	  );
+	
+	  function AsteroidInfo() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      props.hazardous > 0 ? React.createElement(
+	        'h1',
+	        null,
+	        'Yes, ',
+	        props.hazardous,
+	        '!'
+	      ) : React.createElement(
+	        'h1',
+	        null,
+	        'No, not today!'
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        'According to NASA ',
+	        props.asteroidCount,
+	        ' ',
+	        props.roids,
+	        ' ',
+	        props.isAre,
+	        ' approaching Earth today, ',
+	        props.hazardous,
+	        ' of which ',
+	        props.hazIsAre,
+	        ' potentially hazardous'
+	      )
+	    );
+	  }
 	};
 
 /***/ }
